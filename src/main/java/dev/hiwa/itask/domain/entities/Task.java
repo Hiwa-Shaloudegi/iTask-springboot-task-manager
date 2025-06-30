@@ -46,4 +46,10 @@ public class Task {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    public boolean isOpen() {
+        return this.status == TaskStatus.OPEN;
+    }
+
+
 }

@@ -36,4 +36,12 @@ public class TaskList {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    public Double calculateProgress() {
+        int openCount = 0;
+        for (Task t : this.tasks) {
+            if (t.isOpen()) openCount++;
+        }
+        return (double) openCount / tasks.size();
+    }
 }
