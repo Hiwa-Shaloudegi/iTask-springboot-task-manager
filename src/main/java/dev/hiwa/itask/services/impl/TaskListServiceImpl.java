@@ -40,9 +40,36 @@ public class TaskListServiceImpl implements TaskListService {
 
     @Override
     public TaskListDto getTaskListById(UUID id) {
-        TaskList taskList = taskListRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(TaskList.class.getSimpleName(), "id", id));
+        TaskList taskList = taskListRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(TaskList.class.getSimpleName(), "id", id));
 
         return taskListMapper.toDto(taskList);
     }
+
+    @Override
+    public TaskListDto updateTaskListById(UUID id, TaskListDto taskListDto) {
+        TaskList taskListToUpdate = taskListRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(TaskList.class.getSimpleName(), "id", id));
+
+        taskListToUpdate.setTitle(taskListDto.title());
+        taskListToUpdate.setDescription(taskListDto.description());
+
+        taskListRepository.save(taskListToUpdate);
+
+        return taskListMapper.toDto(taskListToUpdate);
+    }
+
+    @Override
+    public void deleteTaskListById(UUID id) {
+        boolean taskListExists = taskListRepository.existsById(id);
+        if (!taskListExists) {
+            throw new ResourceNotFoundException(TaskList.class.getSimpleName(), "id", id);
+        }
+
+        taskListRepository.deleteById(id);
+    }
+
 
 }
