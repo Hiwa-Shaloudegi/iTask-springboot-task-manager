@@ -33,12 +33,16 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskDto createTask(UUID taskListId, TaskDto taskDto) {
-        boolean exists = taskListRepository.existsById(taskListId);
-        if (!exists) {
-            throw new ResourceNotFoundException(TaskList.class.getSimpleName(), "id", taskListId);
-        }
+        TaskList taskList = taskListRepository
+                .findById(taskListId)
+                .orElseThrow(() -> new ResourceNotFoundException(TaskList.class.getSimpleName(),
+                                                                 "id",
+                                                                 taskListId
+                ));
 
         Task task = taskMapper.fromDto(taskDto);
+        task.setTaskList(taskList);
+
         taskRepository.save(task);
 
         return taskMapper.toDto(task);
@@ -50,9 +54,8 @@ public class TaskServiceImpl implements TaskService {
         if (!exists) {
             throw new ResourceNotFoundException(TaskList.class.getSimpleName(), "id", taskListId);
         }
-
         Task task = taskRepository
-                .findByIdAndTaskList_Id(taskListId, id)
+                .findByIdAndTaskList_Id(id, taskListId)
                 .orElseThrow(() -> new ResourceNotFoundException(Task.class.getSimpleName(), "id", id));
 
         return taskMapper.toDto(task);
@@ -66,7 +69,7 @@ public class TaskServiceImpl implements TaskService {
         }
 
         Task taskToUpdate = taskRepository
-                .findByIdAndTaskList_Id(taskListId, id)
+                .findByIdAndTaskList_Id(id, taskListId)
                 .orElseThrow(() -> new ResourceNotFoundException(Task.class.getSimpleName(), "id", id));
 
         taskToUpdate.setTitle(taskDto.title());
@@ -89,7 +92,7 @@ public class TaskServiceImpl implements TaskService {
         }
 
         taskRepository
-                .findByIdAndTaskList_Id(taskListId, id)
+                .findByIdAndTaskList_Id(id, taskListId)
                 .orElseThrow(() -> new ResourceNotFoundException(Task.class.getSimpleName(), "id", id));
 
         taskRepository.deleteById(id);

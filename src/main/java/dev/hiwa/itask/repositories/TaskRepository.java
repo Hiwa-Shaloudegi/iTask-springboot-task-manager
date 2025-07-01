@@ -13,6 +13,6 @@ public interface TaskRepository extends JpaRepository<Task, UUID> {
 
     List<Task> findAllByTaskList_Id(UUID taskListId);
 
-    Optional<Task> findByIdAndTaskList_Id(UUID taskListId, UUID id);
+    Optional<Task> findByIdAndTaskList_Id(UUID id, UUID taskListId);
 
 }
