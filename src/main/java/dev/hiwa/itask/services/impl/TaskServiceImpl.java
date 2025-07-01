@@ -41,6 +41,7 @@ public class TaskServiceImpl implements TaskService {
                 ));
 
         Task task = taskMapper.fromDto(taskDto);
+        task.setId(null);
         task.setTaskList(taskList);
 
         taskRepository.save(task);

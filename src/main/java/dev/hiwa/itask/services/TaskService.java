@@ -1,7 +1,6 @@
 package dev.hiwa.itask.services;
 
 import dev.hiwa.itask.domain.dto.TaskDto;
-import dev.hiwa.itask.domain.entities.Task;
 
 import java.util.List;
 import java.util.UUID;
