@@ -2,6 +2,7 @@ package dev.hiwa.itask.services.impl;
 
 import dev.hiwa.itask.domain.dto.TaskListDto;
 import dev.hiwa.itask.domain.entities.TaskList;
+import dev.hiwa.itask.exceptions.ResourceNotFoundException;
 import dev.hiwa.itask.mappers.TaskListMapper;
 import dev.hiwa.itask.repositories.TaskListRepository;
 import dev.hiwa.itask.services.TaskListService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -35,4 +37,12 @@ public class TaskListServiceImpl implements TaskListService {
 
         return taskListMapper.toDto(savedTaskList);
     }
+
+    @Override
+    public TaskListDto getTaskListById(UUID id) {
+        TaskList taskList = taskListRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(TaskList.class.getSimpleName(), "id", id));
+
+        return taskListMapper.toDto(taskList);
+    }
+
 }

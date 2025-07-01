@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -29,6 +30,11 @@ public class TaskListController {
         var uri = uriBuilder.path("/api/task-lists/{id}").buildAndExpand(savedTaskList.id()).toUri();
 
         return ResponseEntity.created(uri).body(savedTaskList);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TaskListDto> getTaskListById(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(taskListService.getTaskListById(id));
     }
 
 }
