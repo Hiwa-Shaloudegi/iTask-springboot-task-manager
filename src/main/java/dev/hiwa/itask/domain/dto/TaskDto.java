@@ -13,6 +13,6 @@ public record TaskDto(
         @NotNull @NotBlank String title,
         String description,
         LocalDateTime dueDate,
-        @NotNull @NotBlank TaskPriority priority,
-        @NotNull @NotBlank TaskStatus status
+        @NotNull TaskPriority priority,
+        @NotNull TaskStatus status
 ) {}

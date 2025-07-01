@@ -48,7 +48,7 @@ public class TaskListServiceImpl implements TaskListService {
     }
 
     @Override
-    public TaskListDto updateTaskListById(UUID id, TaskListDto taskListDto) {
+    public TaskListDto updateTaskList(UUID id, TaskListDto taskListDto) {
         TaskList taskListToUpdate = taskListRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(TaskList.class.getSimpleName(), "id", id));

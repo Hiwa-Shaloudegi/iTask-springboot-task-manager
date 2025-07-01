@@ -12,7 +12,7 @@ public interface TaskListService {
 
     TaskListDto getTaskListById(UUID id);
 
-    TaskListDto updateTaskListById(UUID id, TaskListDto taskListDto);
+    TaskListDto updateTaskList(UUID id, TaskListDto taskListDto);
 
     void deleteTaskListById(UUID id);
 }
