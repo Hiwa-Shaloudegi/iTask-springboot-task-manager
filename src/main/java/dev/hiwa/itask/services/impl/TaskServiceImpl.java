@@ -10,6 +10,7 @@ import dev.hiwa.itask.repositories.TaskRepository;
 import dev.hiwa.itask.services.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +22,7 @@ public class TaskServiceImpl implements TaskService {
     private final TaskListRepository taskListRepository;
     private final TaskMapper taskMapper;
 
+    @Transactional
     @Override
     public List<TaskDto> getAllTasksByTaskList_Id(UUID taskListId) {
         boolean exists = taskListRepository.existsById(taskListId);
@@ -31,6 +33,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findAllByTaskList_Id(taskListId).stream().map(taskMapper::toDto).toList();
     }
 
+    @Transactional
     @Override
     public TaskDto createTask(UUID taskListId, TaskDto taskDto) {
         TaskList taskList = taskListRepository
@@ -49,6 +52,7 @@ public class TaskServiceImpl implements TaskService {
         return taskMapper.toDto(task);
     }
 
+    @Transactional
     @Override
     public TaskDto getTaskByIdAndTaskList_Id(UUID taskListId, UUID id) {
         boolean exists = taskListRepository.existsById(taskListId);
@@ -62,6 +66,7 @@ public class TaskServiceImpl implements TaskService {
         return taskMapper.toDto(task);
     }
 
+    @Transactional
     @Override
     public TaskDto updateTask(UUID taskListId, UUID id, TaskDto taskDto) {
         boolean exists = taskListRepository.existsById(taskListId);
@@ -85,6 +90,7 @@ public class TaskServiceImpl implements TaskService {
 
     }
 
+    @Transactional
     @Override
     public void deleteTask(UUID taskListId, UUID id) {
         boolean exists = taskListRepository.existsById(taskListId);

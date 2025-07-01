@@ -8,6 +8,7 @@ import dev.hiwa.itask.repositories.TaskListRepository;
 import dev.hiwa.itask.services.TaskListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -42,16 +43,23 @@ public class TaskListServiceImpl implements TaskListService {
     public TaskListDto getTaskListById(UUID id) {
         TaskList taskList = taskListRepository
                 .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(TaskList.class.getSimpleName(), "id", id));
+                .orElseThrow(() -> new ResourceNotFoundException(TaskList.class.getSimpleName(),
+                                                                 "id",
+                                                                 id
+                ));
 
         return taskListMapper.toDto(taskList);
     }
 
+    @Transactional
     @Override
     public TaskListDto updateTaskList(UUID id, TaskListDto taskListDto) {
         TaskList taskListToUpdate = taskListRepository
                 .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(TaskList.class.getSimpleName(), "id", id));
+                .orElseThrow(() -> new ResourceNotFoundException(TaskList.class.getSimpleName(),
+                                                                 "id",
+                                                                 id
+                ));
 
         taskListToUpdate.setTitle(taskListDto.title());
         taskListToUpdate.setDescription(taskListDto.description());
@@ -61,6 +69,7 @@ public class TaskListServiceImpl implements TaskListService {
         return taskListMapper.toDto(taskListToUpdate);
     }
 
+    @Transactional
     @Override
     public void deleteTaskListById(UUID id) {
         boolean taskListExists = taskListRepository.existsById(id);

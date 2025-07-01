@@ -29,7 +29,7 @@ public class TaskList {
 
     private String description;
 
-    @OneToMany(mappedBy = "taskList", cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "taskList", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Task> tasks;
 
     @CreationTimestamp
