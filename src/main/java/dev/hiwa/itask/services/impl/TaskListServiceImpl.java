@@ -8,6 +8,7 @@ import dev.hiwa.itask.services.TaskListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,8 +19,20 @@ public class TaskListServiceImpl implements TaskListService {
 
     @Override
     public List<TaskListDto> getAllTaskLists() {
-        List<TaskList> taskLists= taskListRepository.findAll();
+        List<TaskList> taskLists = taskListRepository.findAll();
         return taskLists.stream().map(taskListMapper::toDto).toList();
 
+    }
+
+    @Override
+    public TaskListDto createTaskList(TaskListDto taskListDto) {
+        TaskList taskList = taskListMapper.fromDto(taskListDto);
+        taskList.setId(null);
+        taskList.setCreatedAt(LocalDateTime.now());
+        taskList.setUpdatedAt(LocalDateTime.now());
+
+        TaskList savedTaskList = taskListRepository.save(taskList);
+
+        return taskListMapper.toDto(savedTaskList);
     }
 }

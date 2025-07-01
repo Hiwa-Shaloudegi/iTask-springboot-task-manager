@@ -41,11 +41,11 @@ public class Task {
     @JoinColumn(name = "task_list_id")
     private TaskList taskList;
 
-    @Column(name ="created_at",nullable = false)
-    private LocalDateTime createdAt;
+    @Column(name ="created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     public boolean isOpen() {
         return this.status == TaskStatus.OPEN;

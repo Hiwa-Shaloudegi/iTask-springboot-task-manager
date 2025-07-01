@@ -2,15 +2,17 @@ package dev.hiwa.itask.domain.dto;
 
 import dev.hiwa.itask.domain.entities.TaskPriority;
 import dev.hiwa.itask.domain.entities.TaskStatus;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record TaskDto(
         UUID id,
-        String title,
+        @NotNull @NotBlank String title,
         String description,
         LocalDateTime dueDate,
-        TaskPriority priority,
-        TaskStatus status
+        @NotNull @NotBlank TaskPriority priority,
+        @NotNull @NotBlank TaskStatus status
 ) {}
